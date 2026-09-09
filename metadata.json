@@ -1,0 +1,10 @@
+{
+  "name": "Saraswati Apex - Degree College Fee & Bursar Management System",
+  "description": "Full-stack Indian degree college fee management system powered by an Express.js REST backend and React frontend with automated receipts, staff expenditures, day-end cash drawer closings, cryptographic audit logging, and multi-role RBAC portals.",
+  "requestFramePermissions": [
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
