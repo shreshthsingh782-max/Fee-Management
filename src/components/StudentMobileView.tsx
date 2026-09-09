@@ -31,11 +31,25 @@ export const StudentMobileView: React.FC<StudentMobileViewProps> = ({
 }) => {
   // Let user toggle which student's phone they are simulating
   const [selectedStudentId, setSelectedStudentId] = useState<string>(
-    students.find((s) => s.pendingDue > 0)?.id || students[0].id
+    students.find((s) => s.pendingDue > 0)?.id || students[0]?.id || ''
   );
   const [activeTab, setActiveTab] = useState<'ID_CARD' | 'FEES' | 'RECEIPTS'>('ID_CARD');
 
-  const currentStudent = students.find((s) => s.id === selectedStudentId) || students[0];
+  const currentStudent = students.find((s) => s.id === selectedStudentId) || students[0] || null;
+
+  if (!currentStudent) {
+    return (
+      <div className="bg-white rounded-xl p-12 text-center border border-slate-200 space-y-3">
+        <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+          <Building2 className="w-6 h-6" />
+        </div>
+        <h3 className="text-sm font-bold text-slate-800">No Student Records Found</h3>
+        <p className="text-xs text-slate-500 max-w-sm mx-auto">
+          There are currently no student records enrolled in the system. Use the dashboard or setup wizard to enroll students to preview the mobile ID companion.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-4">

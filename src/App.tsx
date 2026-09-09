@@ -803,9 +803,9 @@ export default function App() {
   const totalCollected = students.reduce((acc, s) => acc + s.paidAmount, 0);
   const clearedRate = totalAssessed > 0 ? ((totalCollected / totalAssessed) * 100).toFixed(1) : '0';
 
-  // If logged in as student, find student profile
-  const loggedInStudent = students.find((s) => s.id === currentUser.studentId) || students[1]; // fallback to Rohan Deshmukh
-  const loggedInStudentPlan = installmentPlans.find((p) => p.studentId === loggedInStudent.id);
+  // If logged in as student, find student profile safely
+  const loggedInStudent = students.find((s) => s.id === currentUser.studentId) || students[1] || students[0] || null;
+  const loggedInStudentPlan = loggedInStudent ? installmentPlans.find((p) => p.studentId === loggedInStudent.id) : undefined;
 
   return (
     <div className="h-screen w-full bg-slate-100 flex font-sans overflow-hidden text-slate-900 selection:bg-blue-600 selection:text-white">
@@ -837,7 +837,7 @@ export default function App() {
           onOpenReconciliation={() => setIsDrawerModalOpen(true)}
           onOpenReports={() => setIsReportsModalOpen(true)}
           onOpenAuditLogs={() => setIsAuditModalOpen(true)}
-          onOpenInstallments={() => setInstallmentModalStudent(loggedInStudent)}
+          onOpenInstallments={() => loggedInStudent && setInstallmentModalStudent(loggedInStudent)}
           onOpenServerConsole={() => setIsServerConsoleOpen(true)}
           isOnline={isOnline}
           offlineQueueCount={offlineQueue.length}
@@ -866,7 +866,7 @@ export default function App() {
               onOpenReconciliation={() => setIsDrawerModalOpen(true)}
               onOpenReports={() => setIsReportsModalOpen(true)}
               onOpenAuditLogs={() => setIsAuditModalOpen(true)}
-              onOpenInstallments={() => setInstallmentModalStudent(loggedInStudent)}
+              onOpenInstallments={() => loggedInStudent && setInstallmentModalStudent(loggedInStudent)}
               onOpenServerConsole={() => setIsServerConsoleOpen(true)}
               isOnline={isOnline}
               offlineQueueCount={offlineQueue.length}
@@ -966,7 +966,7 @@ export default function App() {
                 onOpenBankingPortal={(stu) => setBankingStudent(stu)}
                 onPaymentSuccess={handlePaymentSuccess}
                 onViewReceipt={(rec) => setViewingReceipt(rec)}
-                onOpenInstallments={() => setInstallmentModalStudent(loggedInStudent)}
+                onOpenInstallments={() => loggedInStudent && setInstallmentModalStudent(loggedInStudent)}
                 onOpenScholarships={() => setIsScholarshipModalOpen(true)}
               />
             )}

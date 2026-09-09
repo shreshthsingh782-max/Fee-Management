@@ -112,7 +112,31 @@ export const AutomatedReminderModal: React.FC<AutomatedReminderModalProps> = ({
     return text;
   };
 
-  const sampleStudent = studentsDue7Days[0] || students[1] || students[0];
+  const sampleStudent: Student = studentsDue7Days[0] || students[1] || students[0] || {
+    id: 'STU-SAMPLE',
+    name: 'Aarav Sharma',
+    rollNo: '23BCSE104',
+    degreeProgram: 'B.Tech Computer Science',
+    department: 'Computer Science & Engineering',
+    semester: 4,
+    academicYear: '2025-2026',
+    totalFee: 85000,
+    paidAmount: 50000,
+    pendingDue: 35000,
+    dueDate: '2026-03-31',
+    category: 'GENERAL',
+    status: 'PENDING',
+    phone: '+91 98765 43210',
+    email: 'aarav.sharma@smdc.edu.in',
+    parentName: 'Rajesh Sharma',
+    parentPhone: '+91 98765 43211',
+    parentEmail: 'rajesh.sharma@example.com',
+    concessions: [],
+    installments: [],
+    paymentHistory: [],
+    qrToken: 'QR-SAMPLE',
+    avatarUrl: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&auto=format&fit=crop&q=80',
+  };
 
   const handleTemplateChange = (field: 'emailSubject' | 'emailBody' | 'smsMessage', value: string) => {
     if (!canEditData) return;

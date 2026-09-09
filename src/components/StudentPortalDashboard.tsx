@@ -26,7 +26,7 @@ import {
 } from 'lucide-react';
 
 interface StudentPortalDashboardProps {
-  student: Student;
+  student?: Student | null;
   onOpenBankingPortal: (student: Student) => void;
   onPaymentSuccess?: (updatedStudent: Student, newReceipt: Receipt) => void;
   onViewReceipt: (receipt: Receipt) => void;
@@ -44,11 +44,25 @@ export const StudentPortalDashboard: React.FC<StudentPortalDashboardProps> = ({
   onOpenInstallments,
   onOpenScholarships,
 }) => {
-  const [payAmount, setPayAmount] = useState<number>(student.pendingDue);
+  const [payAmount, setPayAmount] = useState<number>(student?.pendingDue || 0);
   const [selectedPortal, setSelectedPortal] = useState<BankPortal>(BANK_PORTALS[0]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentSuccessNotice, setPaymentSuccessNotice] = useState<string | null>(null);
   const [showQrModal, setShowQrModal] = useState(false);
+
+  if (!student) {
+    return (
+      <div className="bg-white rounded-xl border border-slate-200 p-12 text-center space-y-3">
+        <div className="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+          <Building2 className="w-6 h-6" />
+        </div>
+        <h3 className="text-base font-bold text-slate-800">No Student Profile Linked</h3>
+        <p className="text-xs text-slate-500 max-w-md mx-auto">
+          No student record is linked to this session, or no students are currently enrolled. Please enroll students or switch to an administrative role in the top-right role switcher.
+        </p>
+      </div>
+    );
+  }
 
   const isOverdue = student.status === 'OVERDUE' || student.pendingDue > 0 && new Date(student.dueDate) < new Date();
   const isCleared = student.pendingDue <= 0;
